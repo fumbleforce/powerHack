@@ -9,40 +9,40 @@ var concat = require('gulp-concat');
 var clean = require('gulp-clean');
 
 gulp.task('lint', function() {
-  gulp.src('./app/src/js/app.js')
+  gulp.src('./public/src/js/app.js')
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
 
 gulp.task('clean', function() {
-    gulp.src('./app/dist/js/*.js', {read: false})
+    gulp.src('./public/dist/js/*.js', {read: false})
         .pipe(clean());
 });
 
 
 gulp.task('browserify', function() {
-    gulp.src(['./app/src/js/*.js'])
+    gulp.src(['./public/src/js/*.js'])
         .pipe(concat('bundle.js'))
-        .pipe(gulp.dest('./app/dist/js/'));
+        .pipe(gulp.dest('./public/dist/js/'));
 });
 
 gulp.task('consolidate', function() {
-    gulp.src(['./app/src/js/*.js',
+    gulp.src(['./public/src/js/*.js',
       './bower_components/angular/angular.js',
       './bower_components/angular-route/angular-route.js'])
-        .pipe(gulp.dest('./app/dist/js/'));
+        .pipe(gulp.dest('./public/dist/js/'));
 });
 
 gulp.task('fix', function() {
-    gulp.src([ './app/dist/js/unfixed_bundle.js', './app/src/js/*.js',])
+    gulp.src([ './public/dist/js/unfixed_bundle.js', './public/src/js/*.js',])
         .pipe(concat('bundle.js'))
-        .pipe(gulp.dest('./app/dist/js/'));
+        .pipe(gulp.dest('./public/dist/js/'));
 });
 
 gulp.task('minify-html', function() {
-  gulp.src('./app/src/templates/*.html')
+  gulp.src('./public/src/templates/*.html')
     .pipe(minifyHTML(opts))
-    .pipe(gulp.dest('./app/dist/templates/'));
+    .pipe(gulp.dest('./public/dist/templates/'));
 });
 
 gulp.task('default', function(){
