@@ -6,35 +6,37 @@ var mainctrl = require('./mainctrl');
 
 
 //Declare app level module and dependencies
-angular.module('app', ['ngRoute'])
+var app = angular.module('app', ['ngRoute'])
 
 
-.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
-    $httpProvider.defaults.useXDomain = true;
-    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+.config(['$routeProvider', '$httpProvider', function($routeProvider) {
 
     $routeProvider
         .when('/', {
-            templateUrl: '../dist/templates/home.html',
+            templateUrl: '../templates/home.html',
             controller: 'MainController'
         })
-        .otherwise(
-            {
-                redirectTo: '/'
-            });
+        .otherwise({
+            redirectTo: '/'
+        });
 }])
 
 
 
 .service('Readings', function($http) {
-    this.get_readings = function (callback) {
-        delete $http.defaults.headers.common['X-Requested-With'];
+
+    var self = this;
+
+    this.readings = {};
+
+    this.refresh_readings = function (callback) {
         $http({
             method: 'GET',
             url: '/readings',
         })
         .success(function(data, status) {
-            callback(null, data);
+            self.readings = data;
+            callback();
         })
         .error(function(data, status) {
             callback(new Error("Request failed"));
@@ -42,12 +44,25 @@ angular.module('app', ['ngRoute'])
     };
 })
 
+/*
+.factory('GameData', function() {
+    if (localStorage['powerHackData']) {
+        return JSON.parse(localStorage['powerHackData']);
+    }
+    return {
+        points: 0,
+        targets: []
+    };
+})
+*/
    
 .controller('MainController', function($scope, Readings) {
-    console.log("Main ctrl");
+    console.log("Main ctrl loaded");
 
-    Readings.get_readings(function(err, data) {
-        $scope.whatsup = data;
+    $scope.readings = {};
+
+    Readings.refresh_readings(function(err) {
+        $scope.readings = Readings.readings;
     });
    
 })
@@ -61,3 +76,5 @@ angular.module('app', ['ngRoute'])
 
 
 ;
+
+console.log("Loaded app");

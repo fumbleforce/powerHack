@@ -6,14 +6,14 @@ var mainctrl = require('./mainctrl');
 
 
 //Declare app level module and dependencies
-angular.module('app', ['ngRoute'])
+var app = angular.module('app', ['ngRoute'])
 
 
 .config(['$routeProvider', '$httpProvider', function($routeProvider) {
 
     $routeProvider
         .when('/', {
-            templateUrl: '../dist/templates/home.html',
+            templateUrl: '../templates/home.html',
             controller: 'MainController'
         })
         .otherwise({
@@ -45,19 +45,22 @@ angular.module('app', ['ngRoute'])
 })
 
 
-.service('Game', function() {
-    var self = this;
-
-    this.
-
-
+.factory('GameData', function() {
+    if (localStorage['powerHackData']) {
+        return JSON.parse(localStorage['powerHackData']);
+    }
+    return {
+        points: 0,
+        targets: []
+    };
 })
 
    
-.controller('MainController', function($scope, Readings) {
-    console.log("Main ctrl");
+.controller('MainController', function($scope, Readings, GameData) {
+    console.log("Main ctrl loaded");
 
     $scope.readings = {};
+    $scope.game = GameData;
 
     Readings.refresh_readings(function(err) {
         $scope.readings = Readings.readings;
@@ -74,3 +77,5 @@ angular.module('app', ['ngRoute'])
 
 
 ;
+
+console.log("Loaded app");

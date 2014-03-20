@@ -45,6 +45,12 @@ gulp.task('minify-html', function() {
     .pipe(gulp.dest('./public/dist/templates/'));
 });
 
+gulp.task('minify-html-index', function() {
+  gulp.src('./public/*.html')
+    .pipe(minifyHTML(opts))
+    .pipe(gulp.dest('./public/dist/'));
+});
+
 gulp.task('default', function(){
-  gulp.run('clean', 'consolidate', 'minify-html', 'lint');
+  gulp.run('clean', 'consolidate', 'minify-html', 'minify-html-index', 'lint');
 });

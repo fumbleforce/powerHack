@@ -6,7 +6,7 @@ var express = require('express'),
 
 
 app.configure(function() {
-    app.use(express.static(__dirname+'/public'));
+    app.use(express.static(__dirname+'/public/src'));
     app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(express.favicon());
@@ -52,7 +52,6 @@ app.get("/readings", function(req, res, next) {
     }).on('error', function(e) {
         console.log("Got error: ", e);
     }).end();
-
 });
 
 
