@@ -37,10 +37,25 @@ app.get("/latest", function(req, res, next) {
     });
 });
 
-app.get("/readings", function(req, res, next) {
+app.get("/readings", function(req, res) {
 
     get_all_readings(function (data) {
         res.json(data);
+    });
+});
+
+app.get("/reading/:rid", function(req, res) {
+    var id = req.params.rid;
+    
+    get_address('/meters/'+id+'/', {
+        seriesType:'ActivePlus',
+        dateFrom:'2014-03-21',
+        dateTo:'2014-03-22',
+        intervalType:'Minute'
+    }, function (address) {
+         get_json(address, function(data) {
+            res.json(data);
+         });
     });
 });
 
@@ -48,8 +63,8 @@ app.get("/meters", function(req, res, next) {
 
     get_address('/meters/', {
         seriesType:'ActivePlus',
-        dateFrom:'2014-03-20',
-        dateTo:'2014-03-21',
+        dateFrom:'2014-03-21',
+        dateTo:'2014-03-22',
         intervalType:'Hour'
     }, function (address) {
          get_json(address, function(data) {
@@ -147,7 +162,6 @@ function get_json(address, opts, callback) {
                 }, 1000);
             } else {
                 console.log('Done');
-                console.log(str);
                 jsonRes = JSON.parse(str);
                 callback(jsonRes);
             }
@@ -203,8 +217,8 @@ function get_all_readings(callback) {
 
         get_address('/meters/'+ids[i]+'/', {
             seriesType:'ActivePlus',
-            dateFrom:'2014-03-20',
-            dateTo:'2014-03-21',
+            dateFrom:'2014-03-21',
+            dateTo:'2014-03-22',
             intervalType:'Minute'
         }, pass_address);
     }

@@ -1,16 +1,50 @@
 <div id="stats">
-
-	<div class="points">
-		{{ game.points }}
+	
+	<!--
+	<div class="container">
+		<div ng-repeat="(key, value) in game.points" class="pull-left">
+			<p>
+				<span class="points">{{ value }}</span>
+			<p>
+		</div>
 	</div>
-
+	-->
 	<div class="targets">
 	</div>
+	
+	<div class="left-container">
+		<div class="pull-left">
+			<p>
+				<span class="points">{{ game.points.left }}</span>
+			<p>
+		</div>
+		<img class="battle-left" src="../img/stian.jpg"></img>
+	</div>
+	<div class="right-container">
+		<div class="pull-left">
+			<p>
+				<span class="points">{{ game.points.right }}</span>
+			<p>
+		</div>
+		<img class="battle-right" src="../img/jorgen.jpg"></img>
+	</div>
 
 
+	<chart ng-model='readings' class="chart-container"></chart>
 
-	<chart ng-model='readings'></chart>
 
+</div>
 
+<div class="items">
+
+	<div class="pull-left item">
+		<img src="../img/oven.jpg"></img>
+		<p>Slå av oppvaskmaskinen kl 14:45</p>
+	</div>
+
+	<div class="pull-left item">
+		<img src="../img/dishwasher.jpg"></img>
+		<p>Slå på oppvaskmaskinen kl 15:30</p>
+	</div>
 
 </div>
